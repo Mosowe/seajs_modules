@@ -1,0 +1,319 @@
+目录：
+    1.seajs简易使用说明；
+        -引用
+        -配置
+        -使用
+        -seajs插件的写法与调用
+            -- 一般seajs插件写法
+            -- 对jQuery插件的改写
+    2.对话框插件 dialog
+    3.表单验证 validate
+    4.选项卡切换 tab
+    5.图片弹框 dialogPic
+    6.拖拽drag
+    7.轮播图-堆叠 rollingPic_pile
+    8.轮播图-平铺 rollingPic_tile
+
+一、seajs简易使用说明:
+
+    1.引用：
+
+        <script src="public/js/sea.js" data-main="./main/main"></script>
+        在html页面使用script标签引入seajs文件，
+        设置属性data-main=‘’指定你写的功能js代码文件，避免了在html页面上写seajs.use代码，
+        当然也可以在html页面写你的代码，前者可以使html页面简洁得只有html代码。
+
+    2.配置（seajs.config）：
+
+        使用seajs.config可以配置文件的别名，路径别名等，方便其他文件使用的时候调用，避免重复及冗长的代码
+
+        方法：
+            1）.与seajs.use写在同一个文件里面（.js或者.html），seajs.config在seajs.use的上面
+            2）.独立的一个配置.js文件，使用script标签在html页面中引入，位置在引入seajs的下面
+
+        常用参数(更多参数配置请百度)：
+            base：Sea.js 在解析顶级标识时，会相对 base 路径来解析。
+            paths：文件夹路径配置。
+            alias：文件别名配置，配置之后可在模块中使用require调用。
+            示例：
+                seajs.config({
+                    paths: {
+                       'js': './public/lib/js' // js文件夹路径配置
+                    },
+                    alias: {
+                       'jquery': 'js/jquery1.9.1' // js文件夹下面的jquery文件
+                    }
+                });
+
+                seajs.use使用：
+                    seaJs.use(['jquery'],function($){
+                        $(function(){
+                            // jq 代码
+                        })
+                    })
+                其他模块调用：
+                    define(function(require, exports, module) {
+                        require('jquery');
+                        function fun(){
+                            $(...)...
+                        }
+                    })
+
+    3.使用（seajs.use）：
+        使用seajs.use来引用你的seajs插件或者在里面写其他功能。
+
+            seajs.use（['文件1','文件2',...],function(参数1，参数2，...){
+                参数1.方法1（）
+                参数1.方法2（）
+                。。。
+            }）
+
+    4.关于seajs的插件写法：
+        假设插件文件为test.js.
+            第一种：
+            define(function(require, exports, module) {
+                fun1 = function(){ alert('fun1') }
+                fun2 = function(){ alert('fun2') }
+                exports = fun1; // 可以不定义接口名称
+                exports = fun2; // 可以不定义接口名称
+            })
+            seajs.use使用：
+                seaJs.use(['test'],function(){ //不需要设置参数
+                    fun1() //直接引用
+                    fun2() //直接引用
+                })
+
+            第二种：
+            define(function(require, exports, module) {
+                function fun1(){ alert('fun1') }
+                function fun2(){ alert('fun2') }
+                exports.f1 = fun1; // 此时exports = fun1;无效,所以需要定义接口名称
+                exports.f2 = fun2; // 此时exports = fun2;无效,所以需要定义接口名称
+            })
+            seajs.use使用：
+                seaJs.use(['test'],function(getfun){ //对应文件设置参数 test ==> gettest
+                    getfun.f1()  //由参数getfun带出f1接口内的方法fun1()
+                    getfun.f2()  //由参数getfun带出f2接口内的方法fun2()
+                })
+
+            第三种：外部一般js插件改写seajs插件
+                有一个dialog.js插件：
+                    function dialog(){}
+                    dialog.prototype.xxx = function(){}
+                                .
+                                .
+                                .
+                改写seajs插件(sea_dialog.js)：
+                    1.将dialog.js的代码全部拷贝到：
+                        define(function(require, exports, module) {
+                            //dialog.js插件的带代码
+                            exports.open = dialog;
+                        })
+                    2.将dialog.js插件require到seajs插件里面去：
+                        define(function(require, exports, module) {
+                            require('dialog')
+                            exports.open = dialog;
+                        })
+
+                    seaJs.use(['sea_dialog'],function(dialog){
+                        dialog.open()
+                    })
+
+            第四种：jquery插件改写seajs插件
+                有一个jq插件：tab.js
+                    (function($){
+                        $.fn.extend({
+                            tab : function(option){
+                                ...
+                            }//tap:function()
+                        });//$.fn.extend
+                    }(jQuery));
+
+                改写seajs插件：
+                    (function (factory) {
+                        if (typeof define === 'function') {
+                        // 如果define已被定义，模块化代码
+                        define('tab',['jquery'], function(require,exports,moudles){
+                            factory(require('jquery')); // 初始化插件
+                            return 'jQuery'; // 返回jQuery
+                        });
+                    } else {
+                        // 如果define没有被定义，正常执行jQuery
+                        factory(jQuery);
+                    }
+                    }(function ($) { // 原jQuery插件内容
+                        $.fn.extend({
+                            tab : function(option){
+                                ...
+                            }//tap:function()
+                        });//$.fn.extend
+                    }));
+
+                seajs.use(['tab'],function(){
+                                	el.tab({
+                                        //参数设置
+                                	})
+                                });
+
+
+
+
+
+
+
+
+
+二、dialog对话框插件使用说明（文件夹dialog）：
+    1.功能：
+        提示信息等功能,支持esc退出
+    2.参数：
+        title：标题           string
+        width：对话框宽度     number
+        height：对话框高度    number
+        left、right、top、bottom：对话框位置，默认是居中，若left与right，top与bottom两两其中有一个被写，
+                则以写的那个为准，若两两都被写出来，无论数值多少则上下左右居中      number
+        html：弹框的主要内容，可以在后面跟着直接写html代码，或者通过gethtml()方法获取在html页面上写出来的对话框
+              内容赋值给它，代码量多的时候推荐后者,具体请参考demo         object
+        drag：是否可拖动，默认true， Boolean
+        buttons：底部按钮，默认两个，array
+    3.方法：
+        open()： 打开对话框
+        close()：关闭对话框，可以使用键盘键esc关闭，参数true和false，默认空为false，通常用于需要对对话框内容
+                 进行操作之后关闭对话框时使用
+                 true => 关闭对话框刷新页面
+                 false => 关闭对话框不刷新页面
+        gethtml(): 获取在html页面上写出来的对话框内容，参数为选择器（class或者id）。
+
+    4.写法：
+        1>获取页面摸个元素的html内容：
+            var html = dialog.gethtml(element);
+        2>创建弹框：
+            new dialog.open().init({
+                        //参数
+                    })
+        3>关闭弹框：
+            dialog.close()
+
+    5.其他：
+        。对话框可以在一个页面上嵌套使用，关闭按钮逐层关闭，不会一次性关闭所有对话框，除非方法close()的
+          参数为true。
+        。对话框内容里面的点击事件请使用标签的onclick属性设置事件，否则在元素click事件外部使用$().click()失效，
+          但在内部有效。
+        。若点击事件单纯的只是关闭对话框，可以给他类名dialog-close，直接关闭不做其他事情。
+        。若点击时候需要先做其他事情，最后才关闭，请在昨晚其他事情之后调用close()方法关闭弹框
+        。对话框生成时body元素被overflow：hidden，即禁止对话框后面的页面滚动
+    详细请参考demo。
+
+
+三、表单验证（文件夹validate）：
+    1.返回值类型：Boolean，true通过，false失败；
+    2.验证类型：
+        email：邮箱
+        phone：电话
+        web：网址
+        qq：QQ号码
+        idcard：身份证
+        zip：邮政编码
+        chinese：中文
+    3.内部方法有两类，一类是拆开的独立验证，一类是合并的带验证方法的验证，
+        写法有两种，分别对应以上两类：
+            method对应验证类型，el是需要验证的表单元素==>jquery写法
+            写法一：
+                method（el）
+            写法二：
+                re(el,'method')
+
+    详情请参考demo
+
+四、tab切换
+    1.功能：
+        适用于banner切换，图片示例展示切换（单个切换），选项卡切换
+    2.写法：
+        $(elment).tab({ // element:包裹着选项卡的盒子元素
+                    // 参数
+                });
+    2.参数：
+        btnlist:"",         切换按钮
+        taplist:"",         切换的内容item
+        mouseEvent:"hover", 切换的方式，      值：click、hover，        默认 hover
+        method:"left",      切换的方向，      值：left，top，fade，     默认 left
+        automatic:false,    是否自动切换，    值：true、false，         默认 false
+        automaticTime:3000, 自动切换间隔，    值：number，单位ms        默认 3000
+        speed:1000          切换的速度，      值：number，单位ms        默认 1000
+
+五、图片弹框dialogPic
+    1.功能:
+        实现图片列表点击放大展示，支持esc退出
+    2.写法:
+        new dialogPic.open().init({
+                        //参数
+                    })
+    3.参数：
+        title:'p',                              列表标题的元素节点
+        content:'.text',                        列表内容的元素节点
+        list:$('.dialogpic-item'),              列表项
+        active:$(this).index(),                 当前点击的元素的索引值
+        length:$('.dialogpic-item').length,     列表的长度
+        tklistboxShow:true                      是否显示弹框底部缩略图列表
+
+六、拖拽drag
+    1.功能:
+        实现元素拖拽功能，可以相对于父级元素element，也可以相对于document对象。
+    2.写法:
+        drag(dragmove,dragbox);
+    3.参数：
+        dragmove：要拖拽的元素，                    绝对定位：absolute
+        dragbox： 在此元素区域内可拖拽，两种情况，  相对定位：relative
+                  element：相对于某个元素拖拽
+                  document：相对于document拖拽，即整个窗口
+
+
+七、轮播图-堆叠 rollingPic_pile
+    1.功能：
+        图片轮播展示，展示方式请看demo
+    2.写法：
+        $(element).rollingPic_pile({  // element是包裹着切换元素的父级
+                    //参数
+                })
+    3.参数:
+        leftBtn:"",		//左边按钮
+        rightBtn:"",    //右边按钮
+        btnBox:"",      //底部原点按钮的父级
+        fontSize:0,     //底部按钮字体大小
+        element:"",     //切换元素
+        title:"",       //切换元素的标题
+        percent:"50",   //前图宽度百分比
+        showNumber:5,   //展示切换数量，最少3，最大建议7，奇数个
+        speed:3000,     //切换速度
+        direction:"left" //切换方向,这个是bug，设置无效
+
+
+
+八、轮播图-平铺 rollingPic_tile
+    1.功能：
+        图片轮播展示，展示方式请看demo
+    2.写法:
+        $(element).rollingPic_tile({
+                    //参数
+                })
+
+        element的内部结构为：
+            <div class="element">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+
+    3.参数：
+        leftBtn:"",        //左边按钮
+        rightBtn:"",       //右边按钮
+        btnBox:"",         //底部原点按钮的父级
+        btnBoxfont:0,      //底部按钮字体大小
+        direction:"left",  //滚动方向 left/right/top/bottom     默认：left
+        carMethod:true,    //是否自动滚动    默认：true
+        contRolling:false, //是否连续滚动    默认：false
+        speed:500,		   //滚动速度
+        Interval:3000,     //滚动间隔
+        showList:0         //需要显示的数目,当总数小于这个值则不滚动
+
+

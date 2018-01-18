@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>使用seaJs的modules</title>
+    <script src="public/js/sea.js" data-main="./main/main"></script>
+    <script src="main/config.js"></script>
+    <link rel="stylesheet" href="public/css/reset.css">
+    <link rel="stylesheet" href="public/css/ionicons.css">
+    <link rel="stylesheet" href="main/main.css">
+
+</head>
+<body>
+<div class="main-wrapper">
+    <div class="modules-menu">
+        <h3>seaJs插件演示</h3>
+        <a href="#dialog">对话框 - dialog</a>
+        <a href="#validate">正则验证 - validate</a>
+        <a href="#tab">选项卡切换 - tab</a>
+        <a href="#dialogpic">图片弹框 - dialogPic</a>
+        <a href="#drag">拖拽 - drag</a>
+        <a href="#rollingPic_pile">轮播图-堆叠 - rollingPic_pile</a>
+        <a href="#rollingPic_tile">轮播图-平铺 - rollingPic_tile</a>
+    </div>
+    <div class="modules_wrapper">
+
+        <div id="dialog" class="modules_item">
+            <h3>dialog对话框<a href="./seaJs_modules_word.html#dialog">文档说明</a> </h3>
+            <div class="item_wrapper">
+                <button class="dl_btn btn1">按钮一</button>
+                <button class="dl_btn btn2" onclick="btn2show()">按钮二</button>
+            </div>
+            <!--下面是对话框的内容，写在html页面上-->
+            <div class="window_alert" id="window_alert" style="display: none">
+                <div class="alertbox">
+                    <p>这是一条警告！</p>
+                    <em>请点击以下事件</em>
+                    <span onclick="spanclick()">onclick事件</span>
+                    <span class="spanc1">按钮一click事件内部发生，jq的click事件</span>
+                    <span class="spanc2">按钮一click事件外部发生，jq的click事件（无效）</span>
+                </div>
+
+            </div>
+            <div class="window_info" id="window_info" style="display: none">
+                <div class="infobox">
+                    <label>姓名：<input type="text" class="dlname"></label>
+                    <label>电话：<input type="text" class="dlphone"></label>
+                </div>
+            </div>
+
+        </div>
+        <div id="validate" class="modules_item">
+            <h3>正则验证<a href="./seaJs_modules_word.html#validate">文档说明</a></h3>
+            <small>邮箱，手机，身份证，网址，QQ，邮政编码，中文验证</small>
+            <div class="item_wrapper">
+                <div class="validate">
+                    <label><span>邮箱：</span><input type="text" class="email" id="email"></label>
+                    <div>
+                        <button class="re-email">验证邮箱</button>
+                    </div>
+                    <label><span>手机号码：</span><input type="text" class="phone"></label>
+                    <div>
+                        <button class="re-phone">验证手机号</button>
+                    </div>
+                    <label><span>网址：</span><input type="text" class="web"></label>
+                    <div>
+                        <button class="re-web">验证网址</button>
+                    </div>
+                    <label><span>身份证：</span><input type="text" class="idcard"></label>
+                    <div>
+                        <button class="re-idcard">验证身份证</button>
+                    </div>
+                    <label><span>QQ号码：</span><input type="text" class="qqnum"></label>
+                    <div>
+                        <button class="re-qqnum">验证QQ号</button>
+                    </div>
+                    <label><span>邮政编码：</span><input type="text" class="zip"></label>
+                    <div>
+                        <button class="re-zip">验证邮政编码</button>
+                    </div>
+                    <label><span>中文：</span><input type="text" class="chinese"></label>
+                    <div>
+                        <button class="re-chinese">验证中文</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="tab" class="modules_item">
+            <h3>tab切换<a href="./seaJs_modules_word.html#tab">文档说明</a></h3>
+            <div class="item_box">
+                <div class="tab-wrapper">
+                    <ul class="tab-menu" id="tab-menu">
+                        <li class="tab-menu-item active">选项卡一</li>
+                        <li class="tab-menu-item">选项卡二</li>
+                        <li class="tab-menu-item">选项卡三</li>
+                    </ul>
+                    <div class="tab-listbox">
+                        <ul>
+                            <li class="tab-item" style="background-color: #00CCFF"><h2>1</h2></li>
+                            <li class="tab-item" style="background-color: #0099FF"><h2>2</h2></li>
+                            <li class="tab-item" style="background-color: #9B9B9B   "><h2>3</h2></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="dialogpic" class="modules_item">
+            <h3>图片弹框<a href="./seaJs_modules_word.html#dialogPic">文档说明</a></h3>
+            <div class="item_box">
+                <ul class="dialogpic-box">
+                    <li class="dialogpic-item"><img src="image/01.jpg">
+                        <p>1</p>
+                        <div class="text">图片详细1</div>
+                    </li>
+                    <li class="dialogpic-item"><img src="image/02.jpg">
+                        <p>2</p>
+                        <div class="text">图片详细2</div>
+                    </li>
+                    <li class="dialogpic-item"><img src="image/03.jpg">
+                        <p>3</p>
+                        <div class="text">图片详细3</div>
+                    </li>
+                    <li class="dialogpic-item"><img src="image/04.jpg">
+                        <p>4</p>
+                        <div class="text">图片详细4</div>
+                    </li>
+                    <li class="dialogpic-item"><img src="image/05.jpg">
+                        <p>5</p>
+                        <div class="text">图片详细5</div>
+                    </li>
+                    <li class="dialogpic-item"><img src="image/11.jpg">
+                        <p>6</p>
+                        <div class="text">图片详细6</div>
+                    </li>
+                    <li class="dialogpic-item"><img src="image/12.jpg">
+                        <p>7</p>
+                        <div class="text">图片详细7</div>
+                    </li>
+                    <li class="dialogpic-item"><img src="image/13.jpg">
+                        <p>8</p>
+                        <div class="text">图片详细8</div>
+                    </li>
+                    <li class="dialogpic-item"><img src="image/14.jpg">
+                        <p>9</p>
+                        <div class="text">图片详细9</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="drag" class="modules_item">
+            <h3>拖拽 drag<a href="./seaJs_modules_word.html#drag">文档说明</a></h3>
+            <div class="drag-box" id="drag-box">
+                不能拖拽文本内容
+                <i class="drag-move" id="drag-move"></i>
+            </div>
+        </div>
+        <div id="rollingPic_pile" class="modules_item">
+            <h3>轮播图-堆叠<a href="./seaJs_modules_word.html#rollingPic_pile">文档说明</a></h3>
+            <div class="pile">
+                <div class="pilebox">
+                    <div class="pile-item">
+                        <a href=""><img src="./image/11.jpg" style="display: block; width: 100%;"><span
+                                style="display: none;">标题</span></a>
+                        <i></i>
+                    </div>
+                    <div class="pile-item">
+                        <a href=""><img src="./image/12.jpg" style="display: block; width: 100%;"><span
+                                style="display: none;">标题</span></a>
+                        <i></i>
+                    </div>
+                    <div class="pile-item">
+                        <a href=""><img src="./image/13.jpg" style="display: block; width: 100%;"><span
+                                style="display: none;">标题</span></a>
+                        <i></i>
+                    </div>
+                    <div class="pile-item">
+                        <a href=""><img src="./image/14.jpg" style="display: block; width: 100%;"><span
+                                style="display: none;">标题</span></a>
+                        <i></i>
+                    </div>
+                    <div class="pile-item">
+                        <a href=""><img src="./image/15.jpg" style="display: block; width: 100%;"><span
+                                style="display: none;">标题</span></a>
+                        <i></i>
+                    </div>
+                    <div class="pile-item">
+                        <a href=""><img src="./image/16.jpg" style="display: block; width: 100%;"><span
+                                style="display: none;">标题</span></a>
+                        <i></i>
+                    </div>
+                    <div class="pile-item">
+                        <a href=""><img src="./image/17.jpg" style="display: block; width: 100%;"><span
+                                style="display: none;">标题</span></a>
+                        <i></i>
+                    </div>
+                    <div class="pile-item">
+                        <a href=""><img src="./image/14.jpg" style="display: block; width: 100%;"><span
+                                style="display: none;">标题</span></a>
+                        <i></i>
+                    </div>
+                    <div class="pile-item">
+                        <a href=""><img src="./image/13.jpg" style="display: block; width: 100%;"><span
+                                style="display: none;">标题</span></a>
+                        <i></i>
+                    </div>
+                    <div class="pile-item">
+                        <a href=""><img src="./image/16.jpg" style="display: block; width: 100%;"><span
+                                style="display: none;">标题</span></a>
+                        <i></i>
+                    </div>
+                </div>
+                <em class="pile-btn01">上一张</em>
+                <em class="pile-btn02">下一张</em>
+                <div class="pile-btn"></div>
+            </div>
+        </div>
+        <div id="rollingPic_tile" class="modules_item">
+            <h3>轮播图-平铺<a href="./seaJs_modules_word.html#rollingPic_tile">文档说明</a></h3>
+            <div class="tile-box">
+                <div class="tile">
+                    <ul>
+                        <li>
+                            <img src="./image/01.jpg">
+                            标题1
+                        </li>
+                        <li>
+                            <img src="./image/02.jpg">
+                            标题2
+                        </li>
+                        <li>
+                            <img src="./image/03.jpg">
+                            标题3
+                        </li>
+                        <li>
+                            <img src="./image/04.jpg">
+                            标题4
+                        </li>
+                        <li>
+                            <img src="./image/05.jpg">
+                            标题5
+                        </li>
+                    </ul>
+                </div>
+                <div class="tile-btn"></div>
+                <div class="tile-btnbox">
+                    <em class="tile-btn01">上一张</em>
+                    <em class="tile-btn02">下一张</em>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

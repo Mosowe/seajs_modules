@@ -1,0 +1,71 @@
+@charset "UTF-8";
+@import "../modules/rollingPic_pile/rollingPic_pile.css";
+@import "../modules/rollingPic_tile/rollingPic_tile.css";
+/*主体框架*/
+.top-menu{ width: 100%; height: 70px; border-bottom: 1px solid rgba(0,0,0,0.3)}
+.top-menu .logo{ float: left; margin: 10px 30px 0 30px;}
+.top-menu .top-nav{ float: right; margin-right: 30px; height: 40px; padding-top: 30px; font-size: 14px; }
+.top-menu .top-nav li{ display: inline-block; margin: 0 5px; position: relative; height: 20px; line-height: 20px;}
+.top-menu .top-nav li .second-nav{ display: none; position: absolute; left: 0; top: 20px; padding: 10px; width: 110px; box-shadow: 0 0 10px rgba(0,0,0,0.3); border-radius: 5px; background-color: #fff;}
+.top-menu .top-nav li .second-nav a{ display: block; margin: 5px 0;}
+.top-menu .top-nav a{color: rgba(0,0,0,0.5); }
+.top-menu .top-nav li.active>a{ color: #00aff0}
+
+.main-wrapper{ overflow: hidden; width: 100%; display: flex;}
+.modules-menu{ flex: 0 0 240px; margin-right: 200px; box-sizing: border-box; height: 100%; overflow-y: auto; border-right: 1px solid rgba(0,0,0,0.3)}
+.modules-menu h3{ height: 50px; line-height: 50px; padding-left: 40px; color: rgba(0,0,0,0.8); font-style: italic}
+.modules-menu a{ display: block; padding-left: 40px;font-size: 14px; color: #666; line-height: 24px; text-decoration: none}
+.modules_wrapper{ overflow: hidden; flex: 1; height: 100%; overflow-y: auto;}
+@media screen and (max-width: 1450px) {
+    .modules-menu{ margin-right: 50px;}
+}
+
+.textWord{ width: 96%; padding: 0 2%;height:100%; outline: none; border: none; resize: none; font-size: 16px; line-height: 24px;}
+/*demo代码样式*/
+
+.modules_item,.item_wrapper{ width: 100%; overflow: hidden; padding: 20px 0;}
+.item_wrapper{ display: flex; padding: 0; margin: 20px 0}
+.item_box{ overflow: hidden; width: 100%; margin: 20px 0;}
+.modules_item h3{font-size: 18px; color: #000; margin-bottom: 15px;}
+.modules_item h3 a{ font-size: 14px; color: rgba(0,0,0,0.3); font-weight: normal; margin-left: 10px;}
+.modules_item small{ display: block; font-size: 14px; color: rgba(0,0,0,0.5)}
+.dl_btn{ flex: 0 0 80px; height: 40px;}
+
+
+.alertbox p{ color: #FD5252}
+.alertbox span{ display: block; padding: 10px 0}
+
+.validate{ flex: 0 0 500px;}
+.validate label{ width: 100%; font-size: 12px; display: flex; margin: 10px 0;}
+.validate span{ flex: 0 0 100px; text-align: right; line-height: 22px; height: 22px; margin-right: 10px;}
+.validate input { flex: 1; height: 20px; border: 1px solid #ddd}
+.validate button{ float: right}
+.validate div{ overflow: hidden}
+
+
+.tab-wrapper .tab-menu{ overflow:hidden; width:100%; margin:20px 0;}
+.tab-wrapper .tab-menu li{ display:inline-block; width:140px; height:40px; text-align:center; line-height:40px; font-size:20px; color:#fff; background-color:#0CF; margin:0 2px; cursor:pointer}
+.tab-wrapper .tab-menu li{ *display:inline}
+.tab-wrapper .tab-menu li.active{ background-color:#09F}
+.tab-wrapper .tab-listbox{ overflow:hidden; width:500px; height:300px; position:relative; }
+.tab-wrapper .tab-listbox ul{ overflow:hidden; position:absolute; left:0; top:0}
+.tab-wrapper .tab-listbox ul li{ float:left;text-align:center; line-height:300px; font-size:50px;; color:#000}
+.tab-wrapper .tab-listbox .list{ width:33.33333%; padding:0 3%; float:left; box-sizing:border-box;}
+
+.dialogpic-box{ overflow: hidden; width: 100%; display: flex; flex-wrap: wrap; }
+.dialogpic-item{overflow: hidden;margin: 5px; flex: 0 0 120px;}
+.dialogpic-item img{ width: 100%}
+.dialogpic-item p{ margin-top: 10px; text-align: center}
+
+
+.drag-box{ overflow: hidden; width: 500px; height: 300px; border: 1px solid #999; margin: 20px 0; position: relative}
+.drag-move{ display: block; width: 50px; height: 50px; background-color: #00CCFF; position: absolute}
+
+
+
+
+
+
+
+
+

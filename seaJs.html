@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="modules/autoTextarea/autoTextarea.js"></script>
+    <link rel="stylesheet" href="public/css/reset.css">
+    <link rel="stylesheet" href="main/main.css">
+
+
+
+</head>
+<body>
+<div class="main-wrapper" id="main-wrapper">
+    <div class="modules-menu">
+        <h3>seajs简易使用说明</h3>
+        <a href="#yingyong">引用</a>
+        <a href="#peizhi">配置</a>
+        <a href="#shiyong">使用</a>
+        <a href="#chajian">seajs插件写法及用法</a>
+        <a href="./seaJs_modules.html">插件demo演示</a>
+        <a href="./seaJs_modules_word.html">插件demo文档</a>
+    </div>
+    <div class="modules_wrapper">
+
+        <div class="modules_item" id="yinyong">
+            <h3>一、引用</h3>
+            <textarea class="textWord" readonly>
+    < script src="public/js/sea.js" data-main="./main/main">< /script>
+
+    在html页面使用script标签引入seajs文件，
+    设置属性data-main=‘’指定你写的功能js代码文件，避免了在html页面上写seajs.use代码，
+    当然也可以在html页面写你的代码，但是前者可以使html页面简洁得只有html代码。
+            </textarea>
+        </div>
+        <div class="modules_item" id="peizhi">
+            <h3>二、配置(seajs.config)</h3>
+            <textarea class="textWord" readonly>
+    使用seajs.config可以配置文件的别名，路径别名等，方便其他文件使用的时候调用，避免重复及冗长的代码
+
+        方法：
+            1）.与seajs.use写在同一个文件里面（.js或者.html），seajs.config在seajs.use的上面
+            2）.独立的一个配置.js文件，使用script标签在html页面中引入，位置在引入seajs的下面
+
+        常用参数(更多参数配置请百度)：
+            base：Sea.js 在解析顶级标识时，会相对 base 路径来解析。
+            paths：文件夹路径配置。
+            alias：文件别名配置，配置之后可在模块中使用require调用。
+            示例：
+                seajs.config({
+                    paths: {
+                       'js': './public/lib/js' // js文件夹路径配置
+                    },
+                    alias: {
+                       'jquery': 'js/jquery1.9.1' // js文件夹下面的jquery文件
+                    }
+                });
+
+                seajs.use使用：
+                    seaJs.use(['jquery'],function($){
+                        $(function(){
+                            // jq 代码
+                        })
+                    })
+                其他模块调用：
+                    define(function(require, exports, module) {
+                        require('jquery');
+                        function fun(){
+                            $(...)...
+                        }
+                    })
+            </textarea>
+        </div>
+        <div class="modules_item" id="shiyong">
+            <h3>三、使用(seajs.use)</h3>
+            <textarea class="textWord" readonly>
+    使用seajs.use来引用你的seajs插件或者在里面写其他功能。
+
+        seajs.use（['文件1','文件2',...],function(参数1，参数2，...){
+            参数1.方法1（）
+            参数1.方法2（）
+            。。。
+        }）
+            </textarea>
+        </div>
+        <div class="modules_item" id="chajian">
+            <h3>四、seajs插件写法及用法</h3>
+            <textarea class="textWord" readonly>
+    假设插件文件为test.js.
+        第一种：
+            define(function(require, exports, module) {
+                fun1 = function(){ alert('fun1') }
+                fun2 = function(){ alert('fun2') }
+                exports = fun1; // 可以不定义接口名称
+                exports = fun2; // 可以不定义接口名称
+            })
+            seajs.use使用：
+                seaJs.use(['test'],function(){ //不需要设置参数
+                    fun1() //直接引用
+                    fun2() //直接引用
+                })
+
+        第二种：
+            define(function(require, exports, module) {
+                function fun1(){ alert('fun1') }
+                function fun2(){ alert('fun2') }
+                exports.f1 = fun1; // 此时exports = fun1;无效,所以需要定义接口名称
+                exports.f2 = fun2; // 此时exports = fun2;无效,所以需要定义接口名称
+            })
+            seajs.use使用：
+                seaJs.use(['test'],function(getfun){ //对应文件设置参数 test ==> gettest
+                    getfun.f1()  //由参数getfun带出f1接口内的方法fun1()
+                    getfun.f2()  //由参数getfun带出f2接口内的方法fun2()
+                })
+
+        第三种：外部一般js插件改写seajs插件
+                有一个dialog.js插件：
+                    function dialog(){}
+                    dialog.prototype.xxx = function(){}
+                                .
+                                .
+                                .
+                改写seajs插件(sea_dialog.js)：
+                    1.将dialog.js的代码全部拷贝到：
+                        define(function(require, exports, module) {
+                            //dialog.js插件的带代码
+                            exports.open = dialog;
+                        })
+                    2.将dialog.js插件require到seajs插件里面去：
+                        define(function(require, exports, module) {
+                            require('dialog')
+                            exports.open = dialog;
+                        })
+
+                    seaJs.use(['sea_dialog'],function(dialog){
+                        dialog.open()
+                    })
+
+        第四种：jquery插件改写seajs插件
+                有一个jq插件：tab.js
+                    (function($){
+                        $.fn.extend({
+                            tab : function(option){
+                                ...
+                            }//tap:function()
+                        });//$.fn.extend
+                    }(jQuery));
+
+                改写seajs插件：
+                    (function (factory) {
+                        if (typeof define === 'function') {
+                        // 如果define已被定义，模块化代码
+                        define('tab',['jquery'], function(require,exports,moudles){
+                            factory(require('jquery')); // 初始化插件
+                            return 'jQuery'; // 返回jQuery
+                        });
+                    } else {
+                        // 如果define没有被定义，正常执行jQuery
+                        factory(jQuery);
+                    }
+                    }(function ($) { // 原jQuery插件内容
+                        $.fn.extend({
+                            tab : function(option){
+                                ...
+                            }//tap:function()
+                        });//$.fn.extend
+                    }));
+
+                seajs.use(['tab'],function(){
+                                    el.tab({
+                                        //参数设置
+                                    })
+                                });
+
+            </textarea>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    var textWord = document.getElementsByClassName('textWord');
+    for (var i = 0; i < textWord.length; i++) {
+        autoTextarea(textWord[i])
+    }
+    document.getElementById('main-wrapper').style.height = document.documentElement.clientHeight + 'px';
+</script>
+</body>
+</html>

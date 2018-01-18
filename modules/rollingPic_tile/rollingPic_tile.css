@@ -1,0 +1,10 @@
+@charset "UTF-8";
+.tile-box .tile{ overflow:hidden; position:relative; margin: 30px 0 0 0;}
+.tile-box .tile li{ float:left; width:240px; height:380px; margin:0 8px; text-align:center; font-size:20px;}
+.tile-box .tile li img{ width: 100%;}
+.tile-box em{ display:block; width:60px; height:40px; border:1px solid #999; border-radius:5px; margin:10px; text-align:center; line-height:40px; cursor:pointer; float:left; font-style:normal}
+.tile-box .tile-btn{ overflow:hidden; margin:20px 0;}
+.tile-box .tile-btn span{ display:inline-block; width:10px; height:10px; border-radius:10px; background-color:#999; margin:0 3px;}
+.tile-box .tile-btn span{ *display:inline}
+.tile-box .tile-btn span.cur{ background-color:#F00}
+.tile-box .tile-btnbox{ overflow:hidden; width:170px;}
